@@ -780,7 +780,7 @@ h1,p {
                   <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="" >Schedule</a>
+                  <a class="nav-link" type="button" data-toggle="modal" data-target="#scheduleModal" id="" >DJ Schedule</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -826,6 +826,21 @@ h1,p {
 
         <div class="reaction-container"></div>
 
+        <!-- Modal -->
+        <div class="modal modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg bg-dark" role="document">
+            <div class="modal-content bg-dark">
+                <div class="modal-body">
+                    <iframe src="https://radio.pulseradio.rocks/public/pulseradio/schedule/embed" frameborder="0" allowtransparency="true" style="width: 100%; min-height: 1000px; border: 0;"></iframe>
+
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
         <!-- <h1 style="display: flex; text-align: center; justify-content: center; align-items: center;">Live Radio Schedule</h1>
         <div style="display: flex; justify-content: center;">
             <iframe src="https://radio.pulseradio.rocks/public/pulseradio/schedule/embed" frameborder="0" allowtransparency="true" style="width: 80%; min-height: 800px; border: 0;"></iframe>
@@ -843,7 +858,20 @@ h1,p {
 
 <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
 <script>
-const InteractionSocket = new io.connect("http://localhost:3001");
+
+//check if production
+let isProduction = false;
+if(window.location.hostname == "pulseradio.rocks") {
+    isProduction = true;
+}
+
+if (isProduction) {
+    console.log('[PulseRadio] > Production Mode');
+} else {
+    console.log('[PulseRadio] > Development Mode');
+}
+
+const InteractionSocket = isProduction ? io("https://socket.pulseradio.rocks") : io("http://localhost:3001");
 
 let conn = false;
 

@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3001
 
 const SocketApp = express();
 const SocketServer = require('http').createServer(SocketApp);
@@ -33,9 +33,9 @@ Socket.on('connection', function (socket) {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`App listening on port ${port}`)
 })
 
-SocketServer.listen(3001, () => {
-    console.log(`Socket server listening on port 3001`)
+SocketServer.listen(3002, () => {
+    console.log(`Socket server listening on port 3002`)
 })
