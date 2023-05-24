@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Pulse | Melbourne</title>
     <link rel="icon" href="/img/logo.png" type="image/gif" sizes="16x16">
 </head>
@@ -581,6 +581,40 @@ a {
     font-size: 20px;
 }
 
+.blob {
+	background: black;
+	border-radius: 50%;
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+	margin: 10px;
+	height: 10px;
+	width: 10px;
+	transform: scale(1);
+	animation: pulse-black 2s infinite;
+}
+
+.blob.red {
+	background: rgba(255, 82, 82, 1);
+	box-shadow: 0 0 0 0 rgba(255, 82, 82, 1);
+	animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+	}
+	
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 10px rgba(255, 82, 82, 0);
+	}
+	
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+	}
+}
+
 
 @-webkit-keyframes pulse {
   0% {
@@ -786,7 +820,10 @@ h1,p {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://docs.google.com/forms/d/1iqJkx9Z0kLF3tgM5xpAZNIrDuhFKUjbykbdGspKq8JA">Become a Host</a>
-                  </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.instagram.com/pulsesradio">Submit Track</a>
+                </li>
               </ul>
             </div>
           </nav>
@@ -796,8 +833,11 @@ h1,p {
             <img src="/img/logo.png" class="logo">
         </div> -->
 
-        <div style="display: flex; text-align: center; justify-content: center; align-items: center; padding: 20px;">
+        <div style="display: flex; text-align: center; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
             <em style="color: white;">Melbourne's home of club music.</em>
+            <div style="display: flex; align-items: baseline;"><div class="blob red"></div><p id="lisen-count">... Pulsing ...</p></div>
+
+
         </div>
 
         <div style="display: flex; justify-content: center; flex-direction: column;" class="radio-contain">
@@ -812,8 +852,7 @@ h1,p {
                 </ul>
             </div>
         </div>
-        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;" class="radio-contain2">
-            <p id="lisen-count">... Listening </p>
+        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 10px;" class="radio-contain2">
             <p id="live-dj"></p>
         </div>
 
@@ -916,8 +955,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 }, 1500);
 
 setTimeout(function() {
-    document.getElementsByClassName('pulse')[0].style.opacity = 0; 
+    document.getElementsByClassName('pulse')[0].remove()
 }, 3000);
+
 
 let socket = new WebSocket("wss://radio.pulseradio.rocks/api/live/nowplaying/websocket");
 
@@ -940,7 +980,7 @@ socket.onmessage = function(event) {
     if (np.live.is_live) {
       document.getElementById('live-dj').innerHTML = '<b>Live DJ: </b>' + np.live.streamer_name;
     } else {
-      document.getElementById('live-dj').innerHTML = '<b>Live DJ:</b> Offline';
+      document.getElementById('live-dj').innerHTML = '<b>Live DJ:</b> Offline <a  data-toggle="modal" data-target="#scheduleModal >(See Schedule)</a>';
     }
   }
 };
