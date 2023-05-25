@@ -834,8 +834,8 @@ h1,p {
         </div> -->
 
         <div style="display: flex; text-align: center; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
-            <em style="color: white;">Melbourne's home of club music.</em>
-            <div style="display: flex; align-items: baseline;"><div class="blob red"></div><p id="lisen-count">... Pulsing ...</p></div>
+            <em style="color: white; font-size: 20px;">Melbourne's home of music.</em>
+            <div style="display: flex; align-items: baseline;"><div class="blob red"></div><p id="lisen-count">... Listening now!</p></div>
 
 
         </div>
@@ -847,13 +847,18 @@ h1,p {
                 <button class="emoji-btn" data-id="star"> 🌟 </button>
                 <button class="emoji-btn" data-id="100"> 💯 </button>
                 <button class="emoji-btn" data-id="clap"> 👏 </button>
-                <button class="emoji-btn" data-id="tada"> 🎉 </button>
+                <button class="emoji-btn" data-id="fire"> 🔥 </button>
                 <button class="emoji-btn" data-id="laugh"> 😂 </button>
                 </ul>
             </div>
         </div>
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 10px;" class="radio-contain2">
-            <p id="live-dj"></p>
+          <p id="live-dj"></p>
+          <div id="live-dj-socials" style="display: flex; flex-direction: column;"></div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; text-align: center; align-items: center;" class="mt-5">
+          <a class="text-white btn-primary p-2" style="border-radius: 15px;" type="button" data-toggle="modal" data-target="#scheduleModal">(See Live Schedule)</a>
         </div>
 
         <div class="reaction-container"></div>
@@ -890,6 +895,13 @@ h1,p {
 
 <script src="https://cdn.socket.io/4.1.2/socket.io.min.js" integrity="sha384-toS6mmwu70G0fw54EGlWWeA4z3dyJ+dlXBtSURSKN4vyRFOcxd3Bzjj/AoOwY+Rg" crossorigin="anonymous"></script>
 <script>
+
+  const weekly_socials = {
+    "Crispy": {
+      soundcloud: "https://soundcloud.com/jack-crispy",
+      instagram: "https://www.instagram.com/crispysmusic/"
+    }
+  }
 
 //check if production
 let isProduction = false;
@@ -975,12 +987,16 @@ socket.onmessage = function(event) {
   if (np) {
     console.log(np.listeners.current)
     console.log(np.listeners.current)
-    document.getElementById('lisen-count').innerHTML = np.listeners.current + ' Listening';
+    document.getElementById('lisen-count').innerHTML = (np.listeners.current) + ' Listening now!';
     // Process Now Playing data in `np` var.
     if (np.live.is_live) {
       document.getElementById('live-dj').innerHTML = '<b>Live DJ: </b>' + np.live.streamer_name;
+      const dj_socials = weekly_socials[np.live.streamer_name];
+      document.getElementById('live-dj-socials').innerHTML = `<a href="${dj_socials.instagram}">${np.live.streamer_name}'s Instagram</a>`;
+      document.getElementById('live-dj-socials').innerHTML += `<a href="${dj_socials.soundcloud}">${np.live.streamer_name}'s Soundcloud</a>`;
     } else {
-      document.getElementById('live-dj').innerHTML = '<b>Live DJ:</b> Offline <a  data-toggle="modal" data-target="#scheduleModal >(See Schedule)</a>';
+      document.getElementById('live-dj').innerHTML = '<b>Live DJ:</b> Offline';
+      // document.getElementById('live-dj').innerHTML += '<br><a data-target="#scheduleModal>See Schedule</a>';
     }
   }
 };
@@ -999,7 +1015,7 @@ const iconTypeMap = {
   star: "🌟",
   100: "💯",
   clap: "👏",
-  tada: "🎉",
+  fire: "🔥",
   laugh: "😂",
 };
 let selectedEmoji = null;
