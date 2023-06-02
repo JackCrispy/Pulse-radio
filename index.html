@@ -17,7 +17,7 @@ body {
     background: rgb(2,0,36);
     background: -moz-linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(0,51,64,1) 100%);
     background: -webkit-linear-gradient(232deg, rgba(2,0,36,1) 0%, rgba(0,51,64,1) 100%);
-    background: linear-gradient(232deg, rgba(2,0,36,1) 50%, rgba(0,51,64,1) 100%);
+    background: linear-gradient(232deg, rgb(45, 11, 34) 50%, rgb(11, 0, 42) 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: 'Inter', sans-serif !important;
@@ -527,6 +527,10 @@ body {
   }
 }
 
+.btn-sched {
+  background:rgb(96, 24, 73) !important;
+}
+
 .pulse {
   height: 100px;
   width: 200px;
@@ -778,7 +782,7 @@ h1,p {
 }
 
 .bg-dark {
-    background: linear-gradient(232deg, rgb(2,0,36) 30%, rgb(0, 116, 145) 100%);
+    background: linear-gradient(232deg, rgb(41, 0, 35) 30%, rgb(145, 0, 123) 100%);
 }
 
 .reaction-container {
@@ -834,7 +838,7 @@ h1,p {
         </div> -->
 
         <div style="display: flex; text-align: center; justify-content: center; align-items: center; flex-direction: column; padding: 20px;">
-            <em style="color: white; font-size: 20px;">Melbourne's home of music.</em>
+            <em style="color: white; font-size: 20px;"></em>
             <div style="display: flex; align-items: baseline;"><div class="blob red"></div><p id="lisen-count">... Listening now!</p></div>
 
 
@@ -858,7 +862,7 @@ h1,p {
         </div>
 
         <div style="display: flex; flex-direction: column; text-align: center; align-items: center;" class="mt-5">
-          <a class="text-white btn-primary p-2" style="border-radius: 15px;" type="button" data-toggle="modal" data-target="#scheduleModal">(See Live Schedule)</a>
+          <a class="text-white btn-sched btn-primary p-2" style="border-radius: 15px;" type="button" data-toggle="modal" data-target="#scheduleModal">(See Live Schedule)</a>
         </div>
 
         <div class="reaction-container"></div>
@@ -868,7 +872,7 @@ h1,p {
             <div class="modal-dialog modal-lg bg-dark" role="document">
             <div class="modal-content bg-dark">
                 <div class="modal-body">
-                    <iframe src="https://radio.pulseradio.rocks/public/pulseradio/schedule/embed" frameborder="0" allowtransparency="true" style="width: 100%; min-height: 1000px; border: 0;"></iframe>
+                    <iframe src="https://radio.pulseradio.rocks/public/pulseradio/schedule/embed" frameborder="0" allowtransparency="true" style="width: 100%; min-height: 800px; border: 0;"></iframe>
 
                 </div>
                 <div class="modal-footer">
@@ -999,7 +1003,8 @@ socket.onmessage = function(event) {
       document.getElementById('live-dj-socials').innerHTML = `<a href="${dj_socials.instagram}">${np.live.streamer_name}'s Instagram</a>`;
       document.getElementById('live-dj-socials').innerHTML += `<a href="${dj_socials.soundcloud}">${np.live.streamer_name}'s Soundcloud</a>`;
     } else {
-      document.getElementById('live-dj').innerHTML = '<b>Live DJ:</b> Offline';
+      document.getElementById('live-dj').innerHTML = '';
+      document.getElementById('live-dj-socials').innerHTML = '';
       // document.getElementById('live-dj').innerHTML += '<br><a data-target="#scheduleModal>See Schedule</a>';
     }
   }
