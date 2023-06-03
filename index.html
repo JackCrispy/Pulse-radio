@@ -907,7 +907,31 @@ h1,p {
     "Jordan": {
       soundcloud: "https://on.soundcloud.com/JV2P5ymdHzzrQCCo8",
       instagram: "https://www.instagram.com/vnz.music/"
-    }
+    },
+    "Odyssey": {
+      soundcloud: "https://soundcloud.com/prod-odyssey",
+      instagram: "https://www.instagram.com/odyssey.musicc/"
+    },
+    "FUSION": {
+      soundcloud: "https://on.soundcloud.com/CzQcgv9XFEiXyQGZ6",
+      instagram: "https://www.instagram.com/fusion_aus/"
+    },
+    "LETTI": {
+      soundcloud: "https://on.soundcloud.com/oRS6bNZJWZ1Hfr5y8",
+      instagram: "https://www.instagram.com/Luke.letti/"
+    },
+    "RANDO": {
+      soundcloud: "https://soundcloud.com/rando1388897",
+      instagram: "https://www.instagram.com/rando_aus1/"
+    },
+    "SABATH": {
+      soundcloud: "https://on.soundcloud.com/DUY1MhsDw2UCBqzu8",
+      instagram: "https://instagram.com/ethanward1323?igshid=NTc4MTIwNjQ2YQ=="
+    },
+    "SAHARA": {
+      soundcloud: "https://on.soundcloud.com/HmACk8uwPCYdxw986",
+      instagram: "https://instagram.com/asapsahara_"
+    },
   }
 
 //check if production
@@ -956,6 +980,11 @@ InteractionSocket.on("connect", () => {
     conn = true;
 });
 
+InteractionSocket.on("live_listeners", data => {
+    console.log('[PulseRadio] [Express Websocket] > Live Listeners : '+data);
+    document.getElementById('lisen-count').innerHTML = (data) + ' Listening now!';
+});
+
 InteractionSocket.on("disconnect", () => {
     console.log('[PulseRadio] [Express Websocket] > Disconnected');
     conn = false;
@@ -992,9 +1021,9 @@ socket.onmessage = function(event) {
   const data = JSON.parse(event.data);
   const np = data?.pub?.data?.np || null;
   if (np) {
-    console.log(np.listeners.current)
-    console.log(np.listeners.current)
-    document.getElementById('lisen-count').innerHTML = (np.listeners.current) + ' Listening now!';
+    // console.log(np.listeners.current)
+    // console.log(np.listeners.current)
+    // document.getElementById('lisen-count').innerHTML = (np.listeners.current) + ' Listening now!';
     // Process Now Playing data in `np` var.
     if (np.live.is_live) {
       document.getElementById('live-dj').innerHTML = '<b>Live DJ: </b>' + np.live.streamer_name;

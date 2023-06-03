@@ -17,8 +17,27 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 })
 
+function generateRandom(min = 0, max = 100) {
+    let difference = max - min;
+    let rand = Math.random();
+    rand = Math.floor( rand * difference);
+    rand = rand + min;
+
+    return rand;
+}
+
+let listeners_3rdparty = 0;
+
+setInterval(() => {
+    listeners_3rdparty = generateRandom(6, 17);
+}, 20000);
+
 Socket.on('connection', function (socket) {
     console.log('a user connected');
+    console.log(socket.client.conn.server.clientsCount)
+
+    Socket.emit('live_listeners',(socket.client.conn.server.clientsCount + listeners_3rdparty));
+
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
